@@ -120,13 +120,11 @@ func NewMessageHandler(metrics []*Metric, namespace string) (mqtt.MessageHandler
 				}
 				floatVal, err = strconv.ParseFloat(strings.TrimSpace(buf.String()), 64)
 				if err != nil {
-					log.Println("Cannot parse template output:", err)
 					continue
 				}
 			} else {
 				if !payloadIsFloat {
 					// payload is not numeric and no value template was given: skip
-					log.Printf("Cannot use value for %s: %s", msg.Topic(), msg.Payload())
 					continue
 				}
 			}
