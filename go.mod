@@ -3,6 +3,7 @@ module github.com/markuslindenberg/iot_exporter
 go 1.14
 
 require (
+	github.com/Masterminds/sprig/v3 v3.2.2
 	github.com/eclipse/paho.mqtt.golang v1.2.0
 	github.com/prometheus/client_golang v1.7.1
 	github.com/prometheus/common v0.12.0 // indirect
