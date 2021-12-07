@@ -59,7 +59,7 @@ Metric configurations can contain the following keys:
 
 * `name` (string) is the resulting prometheus metric name. It will be prefixed by the namespace given on the command line using `-prometheus.namespace` (default namespace is `mqtt`).
 * `match` (string, regex, optional) is a [RE2 regular expression](https://github.com/google/re2/wiki/Syntax) that filters topics and optionally captures subgroups for use in value / label templates. When `match` is empty, default is to not filter messages.
-* `value` (string, template, optional) is a string containing a [Go template](https://golang.org/pkg/text/template/) to extract a value from the MQTT message payload. The result of the rendered template should be parseable by [strconv.ParseFloat](https://golang.org/pkg/strconv/#ParseFloat). When no value template is given, the raw payload will be parsed.
+* `value` (string, template, optional) is a string containing a [Go template](https://golang.org/pkg/text/template/) + [Sprig](http://masterminds.github.io/sprig/) to extract a value from the MQTT message payload. The result of the rendered template should be parseable by [strconv.ParseFloat](https://golang.org/pkg/strconv/#ParseFloat). When no value template is given, the raw payload will be parsed.
   * Template context: Inside the template, the Variables `{{ .Payload }}` and `{{ .Matches }}` are available.
     * `.Payload` contains the parsed message payload: A float64 if the payload can be parsed as number, a data structure if the payload can be parsed as JSON or a string otherwise.
     * `.Matches` contains the matched topic (at index 0) and all groups captured using `()` from index 1 on.

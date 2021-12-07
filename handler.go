@@ -9,6 +9,7 @@ import (
 	"strings"
 	"text/template"
 
+	sprig "github.com/Masterminds/sprig/v3"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/prometheus/client_golang/prometheus"
 )
@@ -40,7 +41,7 @@ func NewMessageHandler(metrics []*Metric, namespace string) (mqtt.MessageHandler
 
 		// parse value template
 		if metric.Value != "" {
-			valueTemplates[i], err = template.New("value").Parse(metric.Value)
+			valueTemplates[i], err = template.New("value").Funcs(sprig.TxtFuncMap()).Parse(metric.Value)
 			if err != nil {
 				return nil, err
 			}
@@ -51,7 +52,7 @@ func NewMessageHandler(metrics []*Metric, namespace string) (mqtt.MessageHandler
 		labelTemplates[i] = make([]*template.Template, 0, len(metric.Labels))
 		for label, tplString := range metric.Labels {
 			labelNames[i] = append(labelNames[i], label)
-			tpl, err := template.New("label").Parse(tplString)
+			tpl, err := template.New("label").Funcs(sprig.TxtFuncMap()).Parse(tplString)
 			if err != nil {
 				return nil, err
 			}
